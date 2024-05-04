@@ -3,70 +3,70 @@ import { useParams } from "react-router-dom";
 
 const STORAGE_URL = import.meta.env.VITE_APP_STORAGE_URL;
 
-function getAvgRGB(imgEl) {
-  const blockSize = 5;
-  const defaultRGB = {
-    r: 127,
-    g: 156,
-    b: 245,
-  };
-  const rgb = {
-    r: 0,
-    g: 0,
-    b: 0,
-  };
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext && canvas.getContext("2d");
-  let data, width, height;
-  let i = -4;
-  let length;
-  let count = 0;
+// function getAvgRGB(imgEl) {
+//   const blockSize = 5;
+//   const defaultRGB = {
+//     r: 127,
+//     g: 156,
+//     b: 245,
+//   };
+//   const rgb = {
+//     r: 0,
+//     g: 0,
+//     b: 0,
+//   };
+//   const canvas = document.createElement("canvas");
+//   const context = canvas.getContext && canvas.getContext("2d");
+//   let data, width, height;
+//   let i = -4;
+//   let length;
+//   let count = 0;
 
-  if (!context) {
-    return defaultRGB;
-  }
+//   if (!context) {
+//     return defaultRGB;
+//   }
 
-  height = canvas.height =
-    imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
-  width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
+//   height = canvas.height =
+//     imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
+//   width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
 
-  context.imageSmoothingEnabled = true;
-  context.drawImage(imgEl, 0, 0);
+//   context.imageSmoothingEnabled = true;
+//   context.drawImage(imgEl, 0, 0);
 
-  try {
-    data = context.getImageData(0, 0, width, height);
-  } catch (e) {
-    return defaultRGB;
-  }
+//   try {
+//     data = context.getImageData(0, 0, width, height);
+//   } catch (e) {
+//     return defaultRGB;
+//   }
 
-  length = data.data.length;
+//   length = data.data.length;
 
-  while ((i += blockSize * 4) < length) {
-    ++count;
-    rgb.r += data.data[i];
-    rgb.g += data.data[i + 1];
-    rgb.b += data.data[i + 2];
-  }
+//   while ((i += blockSize * 4) < length) {
+//     ++count;
+//     rgb.r += data.data[i];
+//     rgb.g += data.data[i + 1];
+//     rgb.b += data.data[i + 2];
+//   }
 
-  // ~~ used to floor values
-  rgb.r = ~~(rgb.r / count);
-  rgb.g = ~~(rgb.g / count);
-  rgb.b = ~~(rgb.b / count);
+//   // ~~ used to floor values
+//   rgb.r = ~~(rgb.r / count);
+//   rgb.g = ~~(rgb.g / count);
+//   rgb.b = ~~(rgb.b / count);
 
-  return rgb;
-}
+//   return rgb;
+// }
 
-function getLighterColor({ r, g, b }, howMuch) {
-  r = r + howMuch > 255 ? 255 : r + howMuch;
-  g = g + howMuch > 255 ? 255 : g + howMuch;
-  b = b + howMuch > 255 ? 255 : b + howMuch;
+// function getLighterColor({ r, g, b }, howMuch) {
+//   r = r + howMuch > 255 ? 255 : r + howMuch;
+//   g = g + howMuch > 255 ? 255 : g + howMuch;
+//   b = b + howMuch > 255 ? 255 : b + howMuch;
 
-  return {
-    rl: r,
-    gl: g,
-    bl: b,
-  };
-}
+//   return {
+//     rl: r,
+//     gl: g,
+//     bl: b,
+//   };
+// }
 
 export default function Slide() {
   const id = useParams().id;
@@ -92,27 +92,27 @@ export default function Slide() {
 
         setSlide(json);
         console.log(json);
-        const imgEl = document.createElement("img");
-        imgEl.src = `${STORAGE_URL}${json.files[currentIndexFile].path}`;
-        const { r, g, b } = getAvgRGB(imgEl);
-        const { rl, gl, bl } = getLighterColor(
-          {
-            r,
-            g,
-            b,
-          },
-          20
-        );
+        // const imgEl = document.createElement("img");
+        // imgEl.src = `${STORAGE_URL}${json.files[currentIndexFile].path}`;
+        // const { r, g, b } = getAvgRGB(imgEl);
+        // const { rl, gl, bl } = getLighterColor(
+        //   {
+        //     r,
+        //     g,
+        //     b,
+        //   },
+        //   20
+        // );
 
-        console.log({ r, g, b });
-        backgroundRef.current.style.background = `linear-gradient(to bottom, rgb(${rl},${gl},${bl}), rgb(${r},${g},${b}))`;
+        // console.log({ r, g, b });
+        // backgroundRef.current.style.background = `linear-gradient(to bottom, rgb(${rl},${gl},${bl}), rgb(${r},${g},${b}))`;
       } catch (e) {
         console.log(e);
       }
     };
 
     getSlide();
-  }, [currentIndexFile, id]);
+  }, [id]);
 
   const toggleFullscreen = useCallback(() => {
     !isFullscreen && document.documentElement.requestFullscreen();
