@@ -112,7 +112,7 @@ export default function Slide() {
     };
 
     getSlide();
-  }, [id]);
+  }, [currentIndexFile, id]);
 
   const toggleFullscreen = useCallback(() => {
     !isFullscreen && document.documentElement.requestFullscreen();

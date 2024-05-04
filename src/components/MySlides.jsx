@@ -6,7 +6,7 @@ const API_URL = `${import.meta.env.VITE_APP_API_URL}/slide`;
 const STORAGE_URL = `${import.meta.env.VITE_APP_STORAGE_URL}`;
 
 Slide.propTypes = {
-  slide: PropTypes.object.isRequired
+  slide: PropTypes.object.isRequired,
 };
 
 function Slide({ slide }) {
@@ -44,6 +44,7 @@ export default function MySlides() {
         const json = await res.json();
 
         setSlides(json);
+        console.log(json);
         setLoading(false);
       } catch (e) {
         console.log(e);
@@ -62,6 +63,8 @@ export default function MySlides() {
         ) : (
           slides.map((slide) => <Slide key={slide.id} slide={slide} />)
         )}
+
+        {slides.length === 0 && !loading && <h2 className="text-center text-slate-500">No tienes presentaciones</h2>}
       </div>
     </>
   );
